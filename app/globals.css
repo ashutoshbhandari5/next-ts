@@ -14,5 +14,10 @@
 
 body {
   color: black;
-  padding: 1em;
+}
+
+@layer base {
+  h1 {
+    @apply font-medium font-extrabold text-2xl;
+  }
 }
