@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import userSchema from "../schema";
+import productSchema from "../schema";
 
 export function GET(
   request: NextRequest,
   { params }: { params: { id: number } }
 ) {
   if (params.id > 10)
-    return NextResponse.json({ error: "User not found", status: 404 });
+    return NextResponse.json({ error: "Produce not found", status: 404 });
 
-  return NextResponse.json({ id: 1, name: "Ashutosh" });
+  return NextResponse.json({ id: 1, name: "milk", price: 2.5 });
 }
 
 export async function PUT(
@@ -16,7 +16,7 @@ export async function PUT(
   { params }: { params: { id: number } }
 ) {
   const body = await request.json();
-  const validation = userSchema.safeParse(body);
+  const validation = productSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(
       { error: validation.error.errors },
@@ -25,11 +25,14 @@ export async function PUT(
 
   if (params.id > 10)
     return NextResponse.json(
-      { error: "Cannot find the name with this id" },
+      { error: "Cannot find the product with this id" },
       { status: 404 }
     );
 
-  return NextResponse.json({ id: 1, name: body.name }, { status: 200 });
+  return NextResponse.json(
+    { id: 1, name: body.name, price: body.price },
+    { status: 200 }
+  );
 }
 
 export async function DELETE(
@@ -42,5 +45,5 @@ export async function DELETE(
       { status: 404 }
     );
 
-  return NextResponse.json({ message: "User deleted successfully" });
+  return NextResponse.json({ message: "Produce deleted successfully" });
 }
